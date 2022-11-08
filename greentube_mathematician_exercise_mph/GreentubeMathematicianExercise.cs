@@ -24,7 +24,7 @@ namespace simulator
             payline = "";
             reelsAreSpecial = new Boolean[] { false, false, false, false, false };
 
-            reels = new string[] { "NTJPNTJQCKNTPJAQKNJNTPJTAKQA", "ANPQJKATJNQJKPTNATNJTPQNJKTN", "QPKNAPQTKPJTAPNKTJQAPKNACJAK", "ANPQJKATJNQJKPTNATNJTPQNJKTN", "NTJPNTJQCKNTPJAQKNJNTPJTAKQA" };
+            reels = new string[] { "NTJPNTJQCKNTPJAQKNJNTPJTAKQA", "ANPQJKATJNQJKPTNATNJTPQNJKTN", "APQTKPJTAPNKTJQAPKNAJAKC", "ANPQJKATJNQJKPTNATNJTPQNJKTN", "NTJPNTJQCKNTPJAQKNJNTPJTAKQA" };
             specialSymbol = 'C';
             specialSymbolValue = 100;
 
@@ -86,9 +86,9 @@ namespace simulator
                 else
                     return false;
             }
-            if (count == reel.Length)
+            if (count == reel.Length-1)
             {
-                if ((reel[0] == specialSymbol) || (reel[reel.Length - 2] == specialSymbol) || (reel[reel.Length] == specialSymbol))
+                if ((reel[0] == specialSymbol) || (reel[reel.Length - 2] == specialSymbol) || (reel[reel.Length-1] == specialSymbol))
                 {
                     return true;
                 }
@@ -108,20 +108,20 @@ namespace simulator
                 return false;
         }
         static int getPayout()
-        // For each sysmbol in the win-plan check if there is a consecutive string of 3, 4 or 5 of those symbols and return the correct payout.
+        // For each sysmbol in the win-plan check if the payline begins with a string of 3, 4 or 5 of those symbols and return the correct payout.
         {
             foreach (var winPlan in winPlans)
             {
                 var symbol = winPlan.Key;
-                if (payline.Contains(new string(symbol, 5)))
+                if (payline.StartsWith(new string(symbol, 5)))
                 {
                     return winPlan.Value[2];
                 }
-                else if (payline.Contains(new string(symbol, 4)))
+                else if (payline.StartsWith(new string(symbol, 4)))
                 {
                     return winPlan.Value[1];
                 }
-                else if (payline.Contains(new string(symbol, 3)))
+                else if (payline.StartsWith(new string(symbol, 3)))
                 {
                     return winPlan.Value[0];
                 }
